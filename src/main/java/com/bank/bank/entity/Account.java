@@ -1,10 +1,8 @@
 package com.bank.bank.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Generated;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
@@ -12,13 +10,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @Table(name="accounts")
-
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String accountHolderName;
     private double balance;
 
-
+    // Constructors and getters/setters
 }
