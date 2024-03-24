@@ -2,17 +2,19 @@ package com.bank.bank.service;
 
 import com.bank.bank.dto.AccountDto;
 
+import java.util.List;
+
 
 public interface IAccountService {
 
     AccountDto createAccount(AccountDto accountDto);
     AccountDto getAccountById (Long accountId);
 
-    AccountDto getAllAcounts(AccountDto accountDto);
+    List<AccountDto> getAllAcounts();
 
     AccountDto updateAccountById(AccountDto accountDto, Long id);
 
-    Void deleteAccount(Long id);
+    void deleteAccount(Long id);
 
 
 
