@@ -15,7 +15,7 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String accountHolderName;
-    private double balance;
+    private Double balance;
 
     // Constructors and getters/setters
 }

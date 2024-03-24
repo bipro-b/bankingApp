@@ -12,6 +12,8 @@ public interface IAccountService {
 
     List<AccountDto> getAllAcounts();
 
+    AccountDto deposit(Long id, Double amount);
+    AccountDto withdraw(Long id, Double amount);
     AccountDto updateAccountById(AccountDto accountDto, Long id);
 
     void deleteAccount(Long id);

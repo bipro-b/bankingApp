@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,18 +50,55 @@ public class AccountService implements IAccountService{
     }
 
     @Override
+    public AccountDto deposit(Long id, Double amount) {
+
+        Account account = accountRepository
+                .findById(id)
+                .orElseThrow(()-> new NoSuchElementException("Id is not found"));
+        Double totalABalance = account.getBalance()+ amount;
+        account.setBalance(totalABalance);
+        Account updatedAmount = accountRepository.save(account);
+        return  AccountMapper.mapToAccountDto(updatedAmount);
+    }
+
+    @Override
+    public AccountDto withdraw(Long id, Double amount) {
+        Account account = accountRepository
+                .findById(id)
+                .orElseThrow(()-> new NoSuchElementException("Id is not found"));
+
+
+        if(account.getBalance()<amount){
+            throw new RuntimeException("Insufficient amount");
+        }
+
+
+
+        Double totalABalance = account.getBalance() - amount;
+        account.setBalance(totalABalance);
+        Account updatedAmount = accountRepository.save(account);
+        return  AccountMapper.mapToAccountDto(updatedAmount);
+    }
+
+    @Override
     public AccountDto updateAccountById(AccountDto accountDto, Long id) {
         Account account = accountRepository.findById(id).orElseThrow(
-                ()-> new RuntimeException("Id is not valid"+id)
+                ()-> new NoSuchElementException("Id is not valid"+id)
         );
 
+        if (accountDto.getAccountHolderName() != null && !accountDto.getAccountHolderName().isEmpty()) {
+            account.setAccountHolderName(accountDto.getAccountHolderName());
+        }
 
-        account.setAccountHolderName(accountDto.getAccountHolderName());
-        account.setBalance(accountDto.getBalance());
-
+        if (accountDto.getBalance() != null) {
+            throw new IllegalArgumentException("Updating balance is not allowed");
+        }
 
         return AccountMapper.mapToAccountDto(accountRepository.save(account));
     }
+
+
+
 
     @Override
     public void deleteAccount(Long id) {
